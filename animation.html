@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* Define keyframes for the animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Apply the animation to elements with the class .staggered-fade */
+.staggered-fade {
+  animation: fadeIn 1s ease-out;
+}
+
+    </style>
+</head>
+<body>
+    <div class="model-header__info-blocks float-group">
+        <div class="model-header__info-block staggered-fade">
+          <div class="model-header__info-block-title">
+            <span class="number-count" data-number="440">440</span>km
+          </div>
+          <div class="model-header__info-block-subline">WLTP Range</div>
+        </div>
+        
+        <div class="model-header__info-block staggered-fade">
+          <div class="model-header__info-block-title">
+            <span class="number-count" data-number="3.6">3.6</span>s
+          </div>
+          <div class="model-header__info-block-subline">From 0-50km/h</div>
+        </div>
+        
+        <div class="model-header__info-block staggered-fade">
+          <div class="model-header__info-block-title">MG iSMART</div>
+          <div class="model-header__info-block-subline">Connectivity System</div>
+        </div>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+              const elements = document.querySelectorAll('.staggered-fade');
+              elements.forEach((element, index) => {
+                setTimeout(() => {
+                  element.style.opacity = '1'; // Ensure opacity is set to 1
+                  element.style.transform = 'translateY(0)'; // Ensure translation is reset
+                  element.classList.add('staggered-fade'); // Add animation class
+                }, index * 300); // Adjust delay time as needed (300ms here)
+              });
+            });
+            </script>
+            
+</body>
+</html>

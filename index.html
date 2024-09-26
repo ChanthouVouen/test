@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Number Count</title>
+    <style>
+        .number-count {
+            font-size: 2em;
+            font-weight: bold;
+            display: inline-block; /* Ensure spacing and width handling */
+            margin: 0 10px; /* Optional: Add some spacing between numbers */
+        }
+    </style>
+</head>
+<body>
+    <!-- The span elements with numbers that will be dynamically replaced -->
+    <span class="number-count" data-number="1375Lg">1375Lg</span>
+    <span class="number-count" data-number="360cf">360cf</span>
+    <span class="number-count" data-number="10.1">10.1</span>
+
+    <script>
+        // Function to animate the number counting effect
+        function animateNumber(element, duration) {
+            const dataNumber = element.getAttribute("data-number");
+            const numericPart = parseFloat(dataNumber);
+
+            // Check if numericPart is a valid number
+            if (isNaN(numericPart)) {
+                console.log(`Skipping non-numeric data-number: ${dataNumber}`);
+                return; // Do nothing if numericPart is not a valid number
+            }
+
+            const start = 0;
+            const startTime = performance.now();
+            const decimalPlaces = (dataNumber.split('.')[1] || '').length; // Determine number of decimal places
+
+            function update(time) {
+                const elapsed = time - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                const value = (progress * numericPart).toFixed(decimalPlaces); // Handle decimal places
+                element.textContent = value + dataNumber.replace(numericPart, ''); // Keep original text, replace numeric part with animated value
+                if (progress < 1) {
+                    requestAnimationFrame(update);
+                } else {
+                    element.textContent = numericPart.toFixed(decimalPlaces) + dataNumber.replace(numericPart, ''); // Ensure final value is correct
+                }
+            }
+
+            requestAnimationFrame(update);
+        }
+
+        // Select all span elements with the class 'number-count' and start the animation if valid
+        document.querySelectorAll(".number-count").forEach((spanElement) => {
+            const dataNumber = spanElement.getAttribute("data-number");
+            const numericPart = parseFloat(dataNumber);
+
+            if (!isNaN(numericPart)) {
+                // Only animate if data-number contains a valid number
+                animateNumber(spanElement, 2000);
+                console.log(`Animating ${dataNumber}`); // Log the value being animated
+            } else {
+                console.log(`Skipping non-numeric data-number: ${dataNumber}`); // Log non-numeric values
+            }
+        });
+    </script>
+</body>
+</html>

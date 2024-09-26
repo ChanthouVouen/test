@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .video__poster {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        .video-play-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="video-block fullscreen-video-container">
+        <div class="fullscreen-video teaser-video--fullscreen">
+            <div class="video__poster-holder">
+                <picture>
+                    <source media="(min-width: 1024px)" data-srcset="https://mgmotor.imgix.net/images/model/zs-ev/zs-facelift-videoposter-v0.1.jpg?crop=focalpoint&fit=crop&fm=webp&fp-x=0.5&fp-y=0.5&h=810&q=80&w=1440" type="image/webp">
+                    <source data-srcset="https://mgmotor.imgix.net/images/model/zs-ev/zs-facelift-videoposter-v0.1.jpg?crop=focalpoint&fit=crop&fm=webp&fp-x=0.5&fp-y=0.5&h=530&q=80&w=1023" type="image/webp">
+                    <img src="https://mgmotor.imgix.net/images/model/zs-ev/zs-facelift-videoposter-v0.1.jpg" alt="Video Poster" class="video__poster">
+                </picture>
+                <div class="video-play-button" id="playButton">
+                    <svg width="85px" height="84px" viewBox="0 0 85 84" xmlns="http://www.w3.org/2000/svg">
+                        <g fill="none" fill-rule="evenodd">
+                            <ellipse stroke="#FFFFFF" stroke-width="2" fill-opacity="0.5" fill="#000000" cx="41.9" cy="41" rx="40.9" ry="41"></ellipse>
+                            <path d="M33.03,31.72 L46.39,34.82 C47.47,35.07 48.14,36.14 47.89,37.22 C47.81,37.58 47.62,37.91 47.36,38.18 L37.09,48.45 C36.31,49.23 35.04,49.23 34.26,48.45 C33.99,48.19 33.81,47.85 33.72,47.49 L30.63,34.12 C30.38,33.05 31.05,31.97 32.13,31.72 C32.42,31.65 32.73,31.65 33.03,31.72 Z" fill="#FFFFFF" transform="translate(39.9, 41) rotate(-225) translate(-39.9, -41)"></path>
+                        </g>
+                    </svg>
+                </div>
+            </div>
+            <div class="video-container teaser-video-player">
+                <div class="plyr plyr--full-ui plyr--video plyr--youtube plyr--fullscreen-enabled plyr--is-touch">
+                    <div class="plyr__video-wrapper plyr__video-embed" style="aspect-ratio: 16 / 9;">
+                        <iframe id="youtubeVideo" frameborder="0" allowfullscreen="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" src="https://www.youtube.com/embed/H-igO-TYX7Y?enablejsapi=1" data-ccm-domain="www.youtube.com"></iframe>
+                        <div class="plyr__poster" style="background-image: url('https://i.ytimg.com/vi/H-igO-TYX7Y/sddefault.jpg');"></div>
+                    </div>
+                    <button type="button" class="plyr__control plyr__control--overlaid" data-plyr="play" aria-label="Play" id="videoPlayButton">
+                        <svg aria-hidden="true" focusable="false"><use xlink:href="#plyr-play"></use></svg>
+                        <span class="plyr__sr-only">Play</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="video-block__content">
+            <h2 class="video-block__title title-v2 a-fade-up --reveal"></h2>
+        </div>
+    </div>
+    
+    <script>
+        const videoPlayer = document.getElementById('youtubeVideo');
+        const playButton = document.getElementById('playButton');
+        const videoPlayButton = document.getElementById('videoPlayButton');
+    
+        // Load the YouTube IFrame Player API code asynchronously.
+        const tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        const firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+    
+        let player;
+        window.onYouTubeIframeAPIReady = function() {
+            player = new YT.Player('youtubeVideo', {
+                events: {
+                    'onStateChange': onPlayerStateChange
+                }
+            });
+        };
+    
+        // Handle play and pause events
+        function onPlayerStateChange(event) {
+            if (event.data == YT.PlayerState.PLAYING) {
+                playButton.style.display = 'none';
+                console.log('hello');
+            } else if (event.data == YT.PlayerState.PAUSED || event.data == YT.PlayerState.ENDED) {
+                playButton.style.display = 'block';
+                console.log('stop');
+            }
+        }
+    
+        // Play the video on button click
+        playButton.addEventListener('click', () => {
+            player.playVideo();
+        });
+    
+        // Play button for overlay
+        videoPlayButton.addEventListener('click', () => {
+            player.playVideo();
+            playButton.style.display = 'none';
+        });
+    </script>
+    
+    
+</body>
+</html>

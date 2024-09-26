@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>YouTube Pause Example</title>
+  <style>
+    #youtube-container {
+      position: relative;
+      width: 560px;
+      height: 315px;
+    }
+
+    #youtube-pause-icon {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 50px;
+      color: white;
+      text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+      cursor: pointer;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div id="youtube-container">
+    <iframe id="youtube-player" width="560" height="315" src="https://www.youtube.com/embed/nmuGNkibBUc?si=DfPz58XRP5vKcSzD&controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    <div id="youtube-pause-icon">&#9208;</div>
+  </div>
+
+  <script>
+    const youtubePlayer = document.getElementById('youtube-player');
+    const youtubePauseIcon = document.getElementById('youtube-pause-icon');
+
+    youtubePauseIcon.addEventListener('click', () => {
+      youtubePlayer.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+      youtubePauseIcon.style.display = 'none';
+      console.log('Hello');
+    });
+
+    youtubePlayer.addEventListener('click', () => {
+      youtubePauseIcon.style.display = 'block';
+    });
+  </script>
+</body>
+</html>
